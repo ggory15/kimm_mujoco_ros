@@ -19,7 +19,7 @@ catkin_package(
 DEPENDS   mujoco_ros_msgs
 )
 
-set(MUJOCO_PATH ${CMAKE_SOURCE_DIR}/kimm_mujoco_ros/mjpro200)
+set(MUJOCO_PATH ${PROJECT_SOURCE_DIR}/../mjpro200/)
 message(STATUS "MuJoCo path: " ${MUJOCO_PATH})
 include_directories(
   include
