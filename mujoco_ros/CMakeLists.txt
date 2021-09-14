@@ -15,6 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 find_package(Eigen3 REQUIRED)
 
+add_definitions(-DSIMULATION)
 catkin_package(
 DEPENDS   mujoco_ros_msgs
 )

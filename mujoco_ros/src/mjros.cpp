@@ -2171,6 +2171,7 @@ void init(std::string key_file)
     ROS_INFO("license file located at %s", key_file.c_str());
     mj_activate(key_file.c_str());
 
+#ifdef SIMULATION
     // init GLFW, set timer callback (milliseconds)
     if (!glfwInit())
         mju_error("could not initialize GLFW");
@@ -2248,6 +2249,7 @@ void init(std::string key_file)
     mjui_add(&ui1, defWatch);
     uiModify(window, &ui0, &uistate, &con);
     uiModify(window, &ui1, &uistate, &con);
+#endif
 }
 
 void makeArrow(mjvGeom* arrow)

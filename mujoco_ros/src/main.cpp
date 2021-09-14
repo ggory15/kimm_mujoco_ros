@@ -82,15 +82,17 @@ void loadmodel(void)
     ctrl_command = mj_stackAlloc(d, (int)m->nu);
     ctrl_command2 = mj_stackAlloc(d, (int)(m->nbody * 6));
 
+#ifdef SIMULATION
     // re-create scene and context
     mjv_makeScene(m, &scn, maxgeom);
     mjr_makeContext(m, &con, 50 * (settings.font + 1));
-
+#endif
     // clear perturbation state
     pert.active = 0;
     pert.select = 0;
     pert.skinselect = -1;
 
+#ifdef SIMULATION
     // align and scale view, update scene
     alignscale();
     mjv_updateScene(m, d, &vopt, &pert, &cam, mjCAT_ALL, &scn);
@@ -109,7 +111,7 @@ void loadmodel(void)
     // full ui update
     uiModify(window, &ui0, &uistate, &con);
     uiModify(window, &ui1, &uistate, &con);
-
+#endif
     updatesettings();
     mujoco_ros_connector_init();
     std::cout << " MODEL LOADED " << std::endl;
@@ -167,7 +169,11 @@ int main(int argc, char **argv)
     std::thread simthread(simulate);
 
     // event loop
+#ifdef SIMULATION
     while ((!glfwWindowShouldClose(window) && !settings.exitrequest) && ros::ok())
+#else
+    while (ros::ok())
+#endif
     {
         // start exclusive access (block simulation thread)
         mtx.lock();
@@ -180,6 +186,7 @@ int main(int argc, char **argv)
         else if (settings.loadrequest > 1)
             settings.loadrequest = 1;
 
+#ifdef SIMULATION
         // handle events (calls all callbacks)
         glfwPollEvents();
 
@@ -194,6 +201,7 @@ int main(int argc, char **argv)
 
         // render while simulation is running
         render(window);
+#endif
     }
 
     // stop simulation thread
