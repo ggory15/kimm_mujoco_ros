@@ -132,6 +132,7 @@ int main(int argc, char **argv)
     sim_command_sub = nh.subscribe<std_msgs::String>("/mujoco_ros_interface/sim_command_con2sim", 100, sim_command_callback);
     sim_command_pub = nh.advertise<std_msgs::String>("/mujoco_ros_interface/sim_command_sim2con", 1);
     sim_run_sub = nh.subscribe<std_msgs::Bool>("/mujoco_ros_interface/sim_run", 1, sim_run_callback);
+    sim_quit_sub = nh.subscribe<std_msgs::Bool>("/mujoco_ros_interface/sim_quit", 1, sim_quit_callback);
 
     //with pub_mode param false, simulation states(joint states, sensor states, simulation time ... ) are published with each own publisher.
     //But if pub_mode param is set to True, all simulation states are going to be published by one topic, so that only one callback function from controller will be triggered.
@@ -202,6 +203,8 @@ int main(int argc, char **argv)
         // render while simulation is running
         render(window);
 #endif
+    if (total_quit)
+        break;
     }
 
     // stop simulation thread
@@ -228,4 +231,7 @@ int main(int argc, char **argv)
 #endif
 
     return 0;
+}
+void sim_quit_callback(const std_msgs::BoolConstPtr &msg){
+    total_quit = msg->data;
 }

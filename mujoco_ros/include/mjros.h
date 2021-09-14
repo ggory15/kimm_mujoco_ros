@@ -272,7 +272,7 @@ ros::Publisher joint_state_pub;
 ros::Publisher sensor_state_pub;
 ros::Subscriber joint_set;
 ros::Subscriber joint_init;
-ros::Subscriber sim_command_sub, sim_run_sub;
+ros::Subscriber sim_command_sub, sim_run_sub, sim_quit_sub;
 ros::Publisher sim_command_pub;
 ros::Publisher sim_status_pub, base_state_pub;
 
@@ -305,7 +305,7 @@ bool pause_check = true;
 bool pub_total_mode = false;
 
 bool dis_check = false;
-
+bool total_quit = false;
 //bool for custom applied force 
 bool custom_ft_applied = false;
 
@@ -344,6 +344,8 @@ void c_reset();
 void jointset_callback(const mujoco_ros_msgs::JointSetConstPtr &msg);
 void sim_command_callback(const std_msgs::StringConstPtr &msg);
 void sim_run_callback(const std_msgs::BoolConstPtr &msg);
+void sim_quit_callback(const std_msgs::BoolConstPtr &msg);
+
 void state_publisher_init();
 void state_publisher();
 void mujoco_ros_connector_init();
