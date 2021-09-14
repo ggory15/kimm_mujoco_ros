@@ -1337,7 +1337,9 @@ void updatesettings(void)
         settings.camera = 0;
 
     // update UI
+#ifdef SIMULATION
     mjui_update(-1, -1, &ui0, &uistate, &con);
+#endif
 }
 
 //--------------------------------- UI hooks (for uitools.c) ----------------------------

@@ -192,13 +192,13 @@ int main(int argc, char **argv)
 
         // prepare to render
         prepare();
-
+#endif
         // ros events
         rosPollEvents();
 
         // end exclusive access (allow simulation thread to run)
         mtx.unlock();
-
+#ifdef SIMULATION
         // render while simulation is running
         render(window);
 #endif
